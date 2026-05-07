@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Credit Predictor</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+        :root {
+            --primary: #4f46e5;
+            --primary-hover: #4338ca;
+            --bg-gradient: linear-gradient(135deg, #f0fdfa 0%, #e0e7ff 100%);
+            --card-bg: rgba(255, 255, 255, 0.85);
+            --card-border: rgba(255, 255, 255, 0.5);
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --error: #ef4444;
+        }
+
+        body {
+            background: var(--bg-gradient);
+            font-family: 'Inter', sans-serif;
+            min-height: 100vh;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-main);
+            padding: 20px;
+        }
+
+        .container {
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            max-width: 500px;
+            width: 100%;
+            padding: 40px;
+            border-radius: 24px;
+            border: 1px solid var(--card-border);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.05);
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h1 {
+            margin: 0 0 8px 0;
+            font-size: 2.2rem;
+            font-weight: 700;
+            background: linear-gradient(to right, #4f46e5, #ec4899);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-align: center;
+        }
+
+        h2 {
+            margin: 0 0 32px 0;
+            font-size: 1rem;
+            font-weight: 400;
+            color: var(--text-muted);
+            text-align: center;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: var(--text-main);
+        }
+
+        input[type="number"], select {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 14px 16px;
+            background: rgba(255, 255, 255, 0.9);
+            border: 1px solid #cbd5e1;
+            border-radius: 12px;
+            color: var(--text-main);
+            font-size: 1rem;
+            font-family: 'Inter', sans-serif;
+            transition: all 0.3s ease;
+            outline: none;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.02);
+        }
+
+        input[type="number"]:focus, select:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.1);
+            background: #ffffff;
+        }
+
+        .submit-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            padding: 16px;
+            width: 100%;
+            font-size: 1.1rem;
+            font-weight: 600;
+            font-family: 'Inter', sans-serif;
+            margin-top: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 14px rgba(79, 70, 229, 0.3);
+        }
+
+        .submit-btn:hover {
+            background: var(--primary-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(79, 70, 229, 0.4);
+        }
+
+        .submit-btn:active {
+            transform: translateY(0);
+        }
+
+        .error-message {
+            background: #fee2e2;
+            border: 1px solid #f87171;
+            color: #b91c1c;
+            padding: 12px 16px;
+            border-radius: 8px;
+            margin-bottom: 24px;
+            font-size: 0.9rem;
+            text-align: center;
+        }
+
+        .row {
+            display: flex;
+            gap: 16px;
+        }
+        .row > .input-group {
+            flex: 1;
+        }
+
+        /* Number input arrows disabled */
+        input[type=number]::-webkit-inner-spin-button, 
+        input[type=number]::-webkit-outer-spin-button { 
+            -webkit-appearance: none; 
+            margin: 0; 
+        }
+        input[type=number] {
+            -moz-appearance: textfield;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Loan Predictor</h1>
+        <h2>Enter your details to check eligibility instantly</h2>
+        
+        {% if error %}
+        <div class="error-message">
+            {{ error }}
+        </div>
+        {% endif %}
+
+        <form method="post">
+            <div class="row">
+                <div class="input-group">
+                    <label for="salary">Annual Salary (₹)</label>
+                    <input type="number" id="salary" name="salary" placeholder="e.g. 500000" required>
+                </div>
+
+                <div class="input-group">
+                    <label for="loan_amount">Requested Loan (₹)</label>
+                    <input type="number" id="loan_amount" name="loan_amount" placeholder="e.g. 150000" required>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="input-group">
+                    <label for="interest_rate">Interest Rate (%)</label>
+                    <input type="number" id="interest_rate" name="interest_rate" placeholder="e.g. 10.5" step="0.1" required>
+                </div>
+
+                <div class="input-group">
+                    <label for="tenure">Tenure (Years)</label>
+                    <input type="number" id="tenure" name="tenure" placeholder="e.g. 5" min="1" max="30" required>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="input-group">
+                    <label for="credit_score">Credit Score</label>
+                    <input type="number" id="credit_score" name="credit_score" placeholder="300 - 850" min="300" max="850" required>
+                </div>
+
+                <div class="input-group">
+                    <label for="age">Age</label>
+                    <input type="number" id="age" name="age" placeholder="e.g. 30" min="18" max="100" required>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="input-group" style="flex: 2;">
+                    <label for="job_status">Job Status</label>
+                    <select id="job_status" name="job_status" required>
+                        <option value="" disabled selected>Select your job status</option>
+                        <option value="Working">Working</option>
+                        <option value="Commercial associate">Commercial Associate</option>
+                        <option value="State servant">State Servant</option>
+                        <option value="Pensioner">Pensioner</option>
+                        <option value="Student">Student</option>
+                        <option value="Unemployed">Unemployed</option>
+                    </select>
+                </div>
+                <div class="input-group" style="flex: 1;">
+                    <label for="years_of_experience">Experience (Yrs)</label>
+                    <input type="number" id="years_of_experience" name="years_of_experience" placeholder="e.g. 5" min="0" step="0.5" required>
+                </div>
+            </div>
+
+            <button type="submit" class="submit-btn">Check Eligibility</button>
+        </form>
+    </div>
+</body>
+</html>
